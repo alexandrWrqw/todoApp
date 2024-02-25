@@ -10,6 +10,7 @@ export default class App extends Component {
 
   state = {
     tasks: [],
+    filter: "all",
   };
 
   createTask(description) {
@@ -70,8 +71,23 @@ export default class App extends Component {
     });
   };
 
+  changeFilter = (fValue) => {
+    this.setState({ filter: fValue });
+  };
+
+  filterTasks = () => {
+    const { tasks, filter } = this.state;
+
+    return tasks.filter(({ completed }) => {
+      const all = filter === "all";
+      const complete = filter === "completed";
+
+      return all ? true : complete ? completed === true : completed === false;
+    });
+  };
+
   render() {
-    const { tasks } = this.state;
+    const { tasks, filter } = this.state;
 
     const notCompletedCount = tasks.filter((task) => !task.completed).length;
 
@@ -80,13 +96,15 @@ export default class App extends Component {
         <Header onAddedTask={this.addTask} />
         <section className="main">
           <TodoList
-            tasks={tasks}
+            tasks={this.filterTasks()}
             onDeleted={this.deleteTask}
             onToggleCompleted={this.toggleCompletedTask}
           />
           <Footer
             notCompleted={notCompletedCount}
             onDeletedAllCompleted={this.deleteCompletedTasks}
+            changeFilter={this.changeFilter}
+            filter={filter}
           />
         </section>
       </section>

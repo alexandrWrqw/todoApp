@@ -1,11 +1,16 @@
 import "./Footer.css";
 import TasksFilter from "../FooterTasksFilter/FooterTasksFilter";
 
-const Footer = ({ notCompleted, onDeletedAllCompleted }) => {
+const Footer = ({
+  notCompleted,
+  onDeletedAllCompleted,
+  changeFilter,
+  filter,
+}) => {
   return (
     <footer className="footer">
       <span className="todo-count">{notCompleted} items left</span>
-      <TasksFilter />
+      <TasksFilter changeFilter={changeFilter} filter={filter} />
       <button
         className="clear-completed"
         onClick={() => onDeletedAllCompleted()}
