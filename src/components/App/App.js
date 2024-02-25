@@ -60,6 +60,16 @@ export default class App extends Component {
     });
   };
 
+  deleteCompletedTasks = () => {
+    this.setState(({ tasks }) => {
+      const newTasks = tasks.filter((el) => el.completed === false);
+
+      return {
+        tasks: newTasks,
+      };
+    });
+  };
+
   render() {
     const { tasks } = this.state;
 
@@ -74,7 +84,10 @@ export default class App extends Component {
             onDeleted={this.deleteTask}
             onToggleCompleted={this.toggleCompletedTask}
           />
-          <Footer notCompleted={notCompletedCount} />
+          <Footer
+            notCompleted={notCompletedCount}
+            onDeletedAllCompleted={this.deleteCompletedTasks}
+          />
         </section>
       </section>
     );
