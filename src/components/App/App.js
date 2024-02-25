@@ -57,6 +57,8 @@ export default class App extends Component {
   render() {
     const { tasks } = this.state;
 
+    const notCompletedCount = tasks.filter((task) => !task.completed).length;
+
     return (
       <section className="todoapp">
         <Header />
@@ -66,7 +68,7 @@ export default class App extends Component {
             onDeleted={this.deleteTask}
             onToggleCompleted={this.toggleCompletedTask}
           />
-          <Footer />
+          <Footer notCompleted={notCompletedCount} />
         </section>
       </section>
     );
