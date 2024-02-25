@@ -14,6 +14,16 @@ export default class App extends Component {
     ],
   };
 
+  deleteTask = (id) => {
+    this.setState(({ tasks }) => {
+      const idx = tasks.findIndex((el) => el.id === id);
+
+      const newTasks = [...tasks.slice(0, idx), ...tasks.slice(idx + 1)];
+
+      return { tasks: newTasks };
+    });
+  };
+
   render() {
     const { tasks } = this.state;
 
@@ -21,7 +31,7 @@ export default class App extends Component {
       <section className="todoapp">
         <Header />
         <section className="main">
-          <TodoList tasks={tasks} />
+          <TodoList tasks={tasks} onDeleted={this.deleteTask} />
           <Footer />
         </section>
       </section>

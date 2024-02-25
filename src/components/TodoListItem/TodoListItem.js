@@ -15,7 +15,7 @@ export default class TodoListItem extends Component {
   };
 
   render() {
-    const { task } = this.props;
+    const { task, onDeleted } = this.props;
     const { completed } = this.state;
 
     let className = "";
@@ -37,7 +37,7 @@ export default class TodoListItem extends Component {
             {/*created 5 minutes ago */}
           </label>
           <button className="icon icon-edit"></button>
-          <button className="icon icon-destroy"></button>
+          <button className="icon icon-destroy" onClick={onDeleted}></button>
         </div>
       </li>
     );
