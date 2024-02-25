@@ -9,11 +9,7 @@ export default class App extends Component {
   maxId = 1;
 
   state = {
-    tasks: [
-      this.createTask("Active task 1"),
-      this.createTask("Active task 2"),
-      this.createTask("Active task 3"),
-    ],
+    tasks: [],
   };
 
   createTask(description) {
@@ -24,6 +20,16 @@ export default class App extends Component {
       id: this.maxId++,
     };
   }
+
+  addTask = (text) => {
+    this.setState(({ tasks }) => {
+      const newTasks = [...tasks, this.createTask(text)];
+
+      return {
+        tasks: newTasks,
+      };
+    });
+  };
 
   deleteTask = (id) => {
     this.setState(({ tasks }) => {
@@ -61,7 +67,7 @@ export default class App extends Component {
 
     return (
       <section className="todoapp">
-        <Header />
+        <Header onAddedTask={this.addTask} />
         <section className="main">
           <TodoList
             tasks={tasks}
