@@ -18,6 +18,7 @@ export default class TodoListItem extends Component {
             className="toggle"
             type="checkbox"
             id={task.id}
+            checked={task.completed}
           />
           <label htmlFor={task.id}>
             <span className="description">{task.description}</span>
