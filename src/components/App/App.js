@@ -42,7 +42,15 @@ export default class App extends Component {
     });
   };
 
-  toggleCompletedTask = (id) => {
+  editTask = (id, value) => {
+    this.setState(({ tasks }) => {
+      tasks: tasks.map((task) =>
+        task.id === id ? (task.description = value) : null
+      );
+    });
+  };
+
+  toggleCompleteTask = (id) => {
     this.setState(({ tasks }) => {
       const idx = tasks.findIndex((el) => el.id === id);
 
@@ -93,16 +101,17 @@ export default class App extends Component {
 
     return (
       <section className="todoapp">
-        <Header onAddedTask={this.addTask} />
+        <Header addTask={this.addTask} />
         <section className="main">
           <TodoList
             tasks={this.filterTasks()}
-            onDeleted={this.deleteTask}
-            onToggleCompleted={this.toggleCompletedTask}
+            deleteTask={this.deleteTask}
+            toggleCompleteTask={this.toggleCompleteTask}
+            editTask={this.editTask}
           />
           <Footer
             notCompleted={notCompletedCount}
-            onDeletedAllCompleted={this.deleteCompletedTasks}
+            deleteCompletedTasks={this.deleteCompletedTasks}
             changeFilter={this.changeFilter}
             filter={filter}
           />

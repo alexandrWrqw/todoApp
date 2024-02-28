@@ -3,7 +3,7 @@ import TasksFilter from "../FooterTasksFilter/FooterTasksFilter";
 
 const Footer = ({
   notCompleted,
-  onDeletedAllCompleted,
+  deleteCompletedTasks,
   changeFilter,
   filter,
 }) => {
@@ -13,7 +13,7 @@ const Footer = ({
       <TasksFilter changeFilter={changeFilter} filter={filter} />
       <button
         className="clear-completed"
-        onClick={() => onDeletedAllCompleted()}
+        onClick={() => deleteCompletedTasks()}
       >
         Clear completed
       </button>

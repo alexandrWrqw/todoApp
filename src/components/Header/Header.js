@@ -6,7 +6,7 @@ export default class Header extends Component {
     label: "",
   };
 
-  onLabelChange = (e) => {
+  onChange = (e) => {
     this.setState({
       label: e.target.value,
     });
@@ -14,7 +14,7 @@ export default class Header extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    this.props.onAddedTask(this.state.label);
+    if (this.state.label !== "") this.props.addTask(this.state.label);
     this.setState({ label: "" });
   };
 
@@ -26,7 +26,7 @@ export default class Header extends Component {
           <input
             className="new-todo"
             placeholder="What needs to be done?"
-            onChange={this.onLabelChange}
+            onChange={this.onChange}
             value={this.state.label}
             autoFocus
           />
