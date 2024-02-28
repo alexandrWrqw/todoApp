@@ -16,7 +16,7 @@ export default class App extends Component {
   createTask(description) {
     return {
       description,
-      createdTime: "time",
+      createdTime: new Date(),
       completed: false,
       id: this.maxId++,
     };
