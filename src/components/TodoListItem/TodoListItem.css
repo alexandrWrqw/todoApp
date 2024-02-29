@@ -1,3 +1,7 @@
+.submitForm {
+  margin: 0;
+}
+
 .todo-list li {
   position: relative;
   font-size: 24px;

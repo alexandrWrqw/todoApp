@@ -1,7 +1,7 @@
 import "./TodoListItem.css";
 import { Component } from "react";
-
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
+import PropTypes from "prop-types";
 
 export default class TodoListItem extends Component {
   state = {
@@ -53,15 +53,36 @@ export default class TodoListItem extends Component {
           ></button>
           <button className="icon icon-destroy" onClick={deleteTask}></button>
         </div>
-        <form onSubmit={this.submitEditedTask.bind(this)}>
-          <input
-            type="text"
-            className="edit"
-            onChange={(e) => this.setState({ value: e.target.value })}
-            value={this.state.value}
-          />
-        </form>
+        {this.state.editing ? (
+          <form
+            className="submitForm"
+            onSubmit={this.submitEditedTask.bind(this)}
+          >
+            <input
+              type="text"
+              className="edit"
+              onChange={(e) => this.setState({ value: e.target.value })}
+              value={this.state.value}
+            />
+          </form>
+        ) : null}
       </li>
     );
   }
 }
+
+TodoListItem.propsTypes = {
+  task: PropTypes.shape({
+    description: PropTypes.string,
+    createdTime: PropTypes.instanceOf(Date),
+    completed: PropTypes.bool,
+    id: PropTypes.number,
+  }),
+  deleteTask: PropTypes.func.isRequired,
+  toggleCompleteTask: PropTypes.func.isRequired,
+  editTask: PropTypes.func.isRequired,
+};
+
+TodoListItem.defaultProps = {
+  task: {},
+};

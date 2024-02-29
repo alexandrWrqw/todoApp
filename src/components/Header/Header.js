@@ -1,5 +1,6 @@
 import "./Header.css";
 import { Component } from "react";
+import PropTypes from "prop-types";
 
 export default class Header extends Component {
   state = {
@@ -35,3 +36,7 @@ export default class Header extends Component {
     );
   }
 }
+
+Header.propTypes = {
+  addTask: PropTypes.func.isRequired,
+};

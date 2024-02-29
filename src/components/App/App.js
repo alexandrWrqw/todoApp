@@ -110,7 +110,7 @@ export default class App extends Component {
             editTask={this.editTask}
           />
           <Footer
-            notCompleted={notCompletedCount}
+            notCompletedCount={notCompletedCount}
             deleteCompletedTasks={this.deleteCompletedTasks}
             changeFilter={this.changeFilter}
             filter={filter}
