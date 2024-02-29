@@ -15,7 +15,7 @@ export default class Header extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    if (this.state.label !== "") this.props.addTask(this.state.label);
+    if (this.state.label.trim() !== "") this.props.addTask(this.state.label);
     this.setState({ label: "" });
   };
 

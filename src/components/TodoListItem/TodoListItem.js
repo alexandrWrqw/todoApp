@@ -13,7 +13,7 @@ export default class TodoListItem extends Component {
     e.preventDefault();
 
     const { editTask, task } = this.props;
-    editTask(task.id, this.state.value);
+    if (this.state.value.trim() !== "") editTask(task.id, this.state.value);
     this.setState({ editing: false, value: "" });
   }
 
