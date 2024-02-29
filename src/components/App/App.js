@@ -44,9 +44,10 @@ export default class App extends Component {
 
   editTask = (id, value) => {
     this.setState(({ tasks }) => {
-      tasks: tasks.map((task) =>
-        task.id === id ? (task.description = value) : null
-      );
+      tasks.map((task) => {
+        if (task.id === id) task.description = value;
+        return task;
+      });
     });
   };
 

@@ -12,48 +12,61 @@ export default class TodoListItem extends Component {
   submitEditedTask(e) {
     e.preventDefault();
 
-    const { editTask, task } = this.props;
-    if (this.state.value.trim() !== "") editTask(task.id, this.state.value);
+    const {
+      editTask,
+      task: { id },
+    } = this.props;
+    const { value } = this.state;
+    if (value.trim() !== "") editTask(id, value);
     this.setState({ editing: false, value: "" });
   }
 
   render() {
-    const { task, deleteTask, toggleCompleteTask } = this.props;
+    const {
+      task: { completed, id, description, createdTime },
+      deleteTask,
+      toggleCompleteTask,
+    } = this.props;
+    const { editing, value } = this.state;
 
     return (
-      <li
-        className={
-          task.completed ? "completed" : this.state.editing ? "editing" : null
-        }
-      >
+      <li className={completed ? "completed" : editing ? "editing" : null}>
         <div className="view">
           <input
             onChange={toggleCompleteTask}
             className="toggle"
             type="checkbox"
-            id={task.id}
-            checked={task.completed}
+            id={id}
+            checked={completed}
           />
-          <label htmlFor={task.id}>
-            <span className="description">{task.description}</span>
+          <label htmlFor={id}>
+            <span className="description">{description}</span>
             <span className="created">
-              {`created ${formatDistanceToNow(task.createdTime, {
+              {`created ${formatDistanceToNow(createdTime, {
                 addSuffix: true,
               })}`}
             </span>
           </label>
           <button
+            type="button"
+            aria-label="edit task"
             className="icon icon-edit"
             onClick={() =>
+              // eslint-disable-next-line no-shadow
               this.setState(({ editing }) => ({
                 editing: !editing,
-                value: this.props.task.description,
+                value: description,
               }))
             }
-          ></button>
-          <button className="icon icon-destroy" onClick={deleteTask}></button>
+          />
+          <button
+            type="button"
+            aria-label="delete task"
+            className="icon icon-destroy"
+            onClick={deleteTask}
+          />
         </div>
-        {this.state.editing ? (
+        {editing ? (
           <form
             className="submitForm"
             onSubmit={this.submitEditedTask.bind(this)}
@@ -62,7 +75,7 @@ export default class TodoListItem extends Component {
               type="text"
               className="edit"
               onChange={(e) => this.setState({ value: e.target.value })}
-              value={this.state.value}
+              value={value}
             />
           </form>
         ) : null}
@@ -71,7 +84,7 @@ export default class TodoListItem extends Component {
   }
 }
 
-TodoListItem.propsTypes = {
+TodoListItem.propTypes = {
   task: PropTypes.shape({
     description: PropTypes.string,
     createdTime: PropTypes.instanceOf(Date),

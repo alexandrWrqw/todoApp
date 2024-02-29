@@ -15,11 +15,16 @@ export default class Header extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    if (this.state.label.trim() !== "") this.props.addTask(this.state.label);
+    const { label } = this.state;
+    const { addTask } = this.props;
+
+    if (label.trim() !== "") addTask(label);
     this.setState({ label: "" });
   };
 
   render() {
+    const { label } = this.state;
+
     return (
       <header className="header">
         <h1>todos</h1>
@@ -28,7 +33,7 @@ export default class Header extends Component {
             className="new-todo"
             placeholder="What needs to be done?"
             onChange={this.onChange}
-            value={this.state.label}
+            value={label}
             autoFocus
           />
         </form>

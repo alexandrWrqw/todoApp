@@ -1,26 +1,21 @@
 import "./TodoList.css";
-import TodoListItem from "../TodoListItem/TodoListItem";
-import { Component } from "react";
 import PropTypes from "prop-types";
+import TodoListItem from "../TodoListItem/TodoListItem";
 
-export default class TodoList extends Component {
-  render() {
-    const { tasks, deleteTask, toggleCompleteTask, editTask } = this.props;
-
-    return (
-      <ul className="todo-list">
-        {tasks.map((task) => (
-          <TodoListItem
-            task={task}
-            key={task.id}
-            deleteTask={() => deleteTask(task.id)}
-            toggleCompleteTask={() => toggleCompleteTask(task.id)}
-            editTask={editTask}
-          />
-        ))}
-      </ul>
-    );
-  }
+function TodoList({ tasks, deleteTask, toggleCompleteTask, editTask }) {
+  return (
+    <ul className="todo-list">
+      {tasks.map((task) => (
+        <TodoListItem
+          task={task}
+          key={task.id}
+          deleteTask={() => deleteTask(task.id)}
+          toggleCompleteTask={() => toggleCompleteTask(task.id)}
+          editTask={editTask}
+        />
+      ))}
+    </ul>
+  );
 }
 
 TodoList.propTypes = {
@@ -33,3 +28,5 @@ TodoList.propTypes = {
 TodoList.defaultProps = {
   tasks: [],
 };
+
+export default TodoList;

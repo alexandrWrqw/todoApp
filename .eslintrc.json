@@ -1,0 +1,31 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:jsx-a11y/recommended",
+    "plugin:import/recommended",
+    "airbnb",
+    "plugin:react/jsx-runtime",
+    "prettier"
+  ],
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "plugins": ["react"],
+  "rules": {
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "react/state-in-constructor": [1, "never"], // Without constructor
+    "react/sort-comp": [1, { "order": ["static-methods"] }], // Don't touch static methods
+    "no-plusplus": "off",
+    "no-param-reassign": ["error", { "props": false }], // Change parameter editTask func
+    "no-nested-ternary": "off", // Where without ternary !!!
+    "jsx-a11y/no-autofocus": "off", // I need autofocus.
+    "react/forbid-prop-types": "off" // For an array with tasks
+  }
+}
