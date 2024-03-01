@@ -27,5 +27,10 @@
     "no-nested-ternary": "off", // Where without ternary !!!
     "jsx-a11y/no-autofocus": "off", // I need autofocus.
     "react/forbid-prop-types": "off" // For an array with tasks
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
   }
 }
