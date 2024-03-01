@@ -76,6 +76,7 @@ export default class TodoListItem extends Component {
               className="edit"
               onChange={(e) => this.setState({ value: e.target.value })}
               value={value}
+              autoFocus
             />
           </form>
         ) : null}
