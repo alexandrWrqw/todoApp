@@ -52,7 +52,6 @@ export default class TodoListItem extends Component {
             aria-label="edit task"
             className="icon icon-edit"
             onClick={() =>
-              // eslint-disable-next-line no-shadow
               this.setState(({ editing }) => ({
                 editing: !editing,
                 value: description,

@@ -15,8 +15,12 @@
   ],
   "parser": "@babel/eslint-parser",
   "parserOptions": {
+    "requireConfigFile": false,
     "ecmaVersion": "latest",
-    "sourceType": "module"
+    "sourceType": "module",
+    "babelOptions": {
+      "presets": ["@babel/preset-react"]
+    }
   },
   "plugins": ["react", "@babel"],
   "rules": {
@@ -27,7 +31,8 @@
     "no-param-reassign": ["error", { "props": false }], // Change parameter editTask func
     "no-nested-ternary": "off", // Where without ternary !!!
     "jsx-a11y/no-autofocus": "off", // I need autofocus.
-    "react/forbid-prop-types": "off" // For an array with tasks
+    "react/forbid-prop-types": "off", // For an array with tasks
+    "no-shadow": "off"
   },
   "settings": {
     "react": {
