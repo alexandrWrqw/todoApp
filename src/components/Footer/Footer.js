@@ -1,4 +1,3 @@
-import "./Footer.css";
 import PropTypes from "prop-types";
 import TasksFilter from "../FooterTasksFilter/FooterTasksFilter";
 

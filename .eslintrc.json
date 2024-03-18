@@ -23,7 +23,8 @@
     "no-nested-ternary": "off", // Where without ternary !!!
     "jsx-a11y/no-autofocus": "off", // I need autofocus.
     "react/forbid-prop-types": "off", // For an array with tasks
-    "no-shadow": "off"
+    "class-methods-use-this": "off",
+    "no-shadow": "off" // КОГДА БУДУ ПЕРЕПИСЫВАТЬ НА ХУКИ, ВСЕ СДЕЛАЮ ПО КРАСОТЕ, сейчас не вижу смысла по среди MovieApp копаться в этом первом проекте
   },
   "settings": {
     "react": {

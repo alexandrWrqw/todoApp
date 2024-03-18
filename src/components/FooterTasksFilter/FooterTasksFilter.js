@@ -1,4 +1,3 @@
-import "./FooterTasksFilter.css";
 import PropTypes from "prop-types";
 
 function TasksFilter({ changeFilter, filter }) {

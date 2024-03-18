@@ -1,4 +1,3 @@
-import "./TodoList.css";
 import PropTypes from "prop-types";
 import TodoListItem from "../TodoListItem/TodoListItem";
 

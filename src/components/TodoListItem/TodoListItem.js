@@ -1,4 +1,3 @@
-import "./TodoListItem.css";
 import { Component } from "react";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import PropTypes from "prop-types";
@@ -7,9 +6,45 @@ export default class TodoListItem extends Component {
   state = {
     editing: false,
     value: "",
+    runningTimer: true,
+    seconds: 55,
+    minutes: 0,
   };
 
-  submitEditedTask(e) {
+  componentDidMount() {
+    this.startTimer();
+  }
+
+  formatTime = (value) => {
+    let timeStr = value.toString();
+
+    if (timeStr.length < 2) {
+      timeStr = `0${timeStr}`;
+    }
+
+    return timeStr;
+  };
+
+  startTimer = () => {
+    this.watch = setInterval(() => this.timer(), 1000);
+  };
+
+  stopTimer = () => {
+    this.setState({ runningTimer: false });
+    clearInterval(this.watch);
+  };
+
+  timer = () => {
+    const { seconds, minutes } = this.state;
+
+    this.setState({ seconds: seconds + 1 });
+
+    if (seconds >= 59) {
+      this.setState({ minutes: minutes + 1, seconds: 0 });
+    }
+  };
+
+  submitEditedTask = (e) => {
     e.preventDefault();
 
     const {
@@ -19,7 +54,7 @@ export default class TodoListItem extends Component {
     const { value } = this.state;
     if (value.trim() !== "") editTask(id, value);
     this.setState({ editing: false, value: "" });
-  }
+  };
 
   render() {
     const {
@@ -27,7 +62,7 @@ export default class TodoListItem extends Component {
       deleteTask,
       toggleCompleteTask,
     } = this.props;
-    const { editing, value } = this.state;
+    const { editing, value, seconds, minutes, runningTimer } = this.state;
 
     return (
       <li className={completed ? "completed" : editing ? "editing" : null}>
@@ -40,8 +75,23 @@ export default class TodoListItem extends Component {
             checked={completed}
           />
           <label htmlFor={id}>
-            <span className="description">{description}</span>
-            <span className="created">
+            <span className="title">{description}</span>
+            <span className="description">
+              {`${this.formatTime(minutes)}:${this.formatTime(seconds)}`}
+              <button
+                type="button"
+                className="icon icon-play"
+                aria-label="Play"
+                onClick={runningTimer ? null : this.startTimer}
+              />
+              <button
+                type="button"
+                className="icon icon-pause"
+                aria-label="Pause"
+                onClick={this.stopTimer}
+              />
+            </span>
+            <span className="description">
               {`created ${formatDistanceToNow(createdTime, {
                 addSuffix: true,
               })}`}
