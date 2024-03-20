@@ -10,6 +10,7 @@ export default class App extends Component {
   state = {
     tasks: [],
     filter: "all",
+    savedTimers: new Map(),
   };
 
   createTask(description) {
@@ -39,6 +40,8 @@ export default class App extends Component {
 
       return { tasks: newTasks };
     });
+
+    this.deleteTimer(id);
   };
 
   editTask = (id, value) => {
@@ -94,6 +97,26 @@ export default class App extends Component {
     });
   };
 
+  saveTimer = (id, timeData) => {
+    const { savedTimers } = this.state;
+    savedTimers.set(id, timeData);
+  };
+
+  hasTimer = (id) => {
+    const { savedTimers } = this.state;
+    return savedTimers.has(id);
+  };
+
+  getTimer = (id) => {
+    const { savedTimers } = this.state;
+    return savedTimers.get(id);
+  };
+
+  deleteTimer = (id) => {
+    const { savedTimers } = this.state;
+    savedTimers.delete(id);
+  };
+
   render() {
     const { tasks, filter } = this.state;
 
@@ -108,6 +131,10 @@ export default class App extends Component {
             deleteTask={this.deleteTask}
             toggleCompleteTask={this.toggleCompleteTask}
             editTask={this.editTask}
+            saveTimer={this.saveTimer}
+            hasTimer={this.hasTimer}
+            getTimer={this.getTimer}
+            deleteTimer={this.deleteTimer}
           />
           <Footer
             notCompletedCount={notCompletedCount}

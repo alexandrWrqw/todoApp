@@ -6,26 +6,57 @@ export default class TodoListItem extends Component {
   state = {
     editing: false,
     value: "",
-    runningTimer: true,
-    seconds: 55,
+    runningTimer: false,
+    seconds: 0,
     minutes: 0,
   };
 
   componentDidMount() {
-    this.startTimer();
+    const { task, hasTimer, getTimer, deleteTimer } = this.props;
+    const { id } = task;
+
+    if (hasTimer(`task${id}`)) {
+      const value = getTimer(`task${id}`);
+
+      let [saveSeconds, saveMinutes] = value;
+      const [, , saveDate, saveRunning] = value;
+
+      if (saveRunning) {
+        const nowDate = new Date();
+        let difference = Math.ceil((nowDate - saveDate) / 1000);
+
+        while (difference > 60) {
+          difference -= 60;
+          saveMinutes += 1;
+        }
+
+        saveSeconds += difference;
+        this.startTimer();
+      }
+
+      this.setState({
+        seconds: saveSeconds,
+        minutes: saveMinutes,
+        runningTimer: saveRunning,
+      });
+
+      deleteTimer(`task${id}`);
+    } else {
+      this.startTimer();
+    }
   }
 
-  formatTime = (value) => {
-    let timeStr = value.toString();
+  componentWillUnmount() {
+    const { task, saveTimer } = this.props;
+    const { id } = task;
 
-    if (timeStr.length < 2) {
-      timeStr = `0${timeStr}`;
-    }
+    const { runningTimer, seconds, minutes } = this.state;
 
-    return timeStr;
-  };
+    saveTimer(`task${id}`, [seconds, minutes, new Date(), runningTimer]);
+  }
 
   startTimer = () => {
+    this.setState({ runningTimer: true });
     this.watch = setInterval(() => this.timer(), 1000);
   };
 
@@ -44,6 +75,16 @@ export default class TodoListItem extends Component {
     }
   };
 
+  formatTime = (value) => {
+    let timeStr = value.toString();
+
+    if (timeStr.length < 2) {
+      timeStr = `0${timeStr}`;
+    }
+
+    return timeStr;
+  };
+
   submitEditedTask = (e) => {
     e.preventDefault();
 
@@ -57,18 +98,18 @@ export default class TodoListItem extends Component {
   };
 
   render() {
-    const {
-      task: { completed, id, description, createdTime },
-      deleteTask,
-      toggleCompleteTask,
-    } = this.props;
+    const { task, deleteTask, toggleCompleteTask } = this.props;
+    const { completed, id, description, createdTime } = task;
     const { editing, value, seconds, minutes, runningTimer } = this.state;
 
     return (
       <li className={completed ? "completed" : editing ? "editing" : null}>
         <div className="view">
           <input
-            onChange={toggleCompleteTask}
+            onChange={() => {
+              toggleCompleteTask();
+              completed ? this.startTimer() : this.stopTimer();
+            }}
             className="toggle"
             type="checkbox"
             id={id}
@@ -88,7 +129,7 @@ export default class TodoListItem extends Component {
                 type="button"
                 className="icon icon-pause"
                 aria-label="Pause"
-                onClick={this.stopTimer}
+                onClick={runningTimer ? this.stopTimer : null}
               />
             </span>
             <span className="description">
@@ -112,7 +153,7 @@ export default class TodoListItem extends Component {
             type="button"
             aria-label="delete task"
             className="icon icon-destroy"
-            onClick={deleteTask}
+            onClick={() => deleteTask(id)}
           />
         </div>
         {editing ? (
@@ -144,6 +185,10 @@ TodoListItem.propTypes = {
   deleteTask: PropTypes.func.isRequired,
   toggleCompleteTask: PropTypes.func.isRequired,
   editTask: PropTypes.func.isRequired,
+  saveTimer: PropTypes.func.isRequired,
+  hasTimer: PropTypes.func.isRequired,
+  getTimer: PropTypes.func.isRequired,
+  deleteTimer: PropTypes.func.isRequired,
 };
 
 TodoListItem.defaultProps = {
