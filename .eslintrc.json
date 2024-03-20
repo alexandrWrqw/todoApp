@@ -24,6 +24,11 @@
     "jsx-a11y/no-autofocus": "off", // I need autofocus.
     "react/forbid-prop-types": "off", // For an array with tasks
     "class-methods-use-this": "off",
+    "react/destructuring-assignment": "off",
+    "no-unused-expressions": [
+      "error",
+      { "allowShortCircuit": false, "allowTernary": true }
+    ],
     "no-shadow": "off" // КОГДА БУДУ ПЕРЕПИСЫВАТЬ НА ХУКИ, ВСЕ СДЕЛАЮ ПО КРАСОТЕ, сейчас не вижу смысла по среди MovieApp копаться в этом первом проекте
   },
   "settings": {
