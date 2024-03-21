@@ -29,6 +29,7 @@
       "error",
       { "allowShortCircuit": false, "allowTernary": true }
     ],
+    "consistent-return": "off",
     "no-shadow": "off" // КОГДА БУДУ ПЕРЕПИСЫВАТЬ НА ХУКИ, ВСЕ СДЕЛАЮ ПО КРАСОТЕ, сейчас не вижу смысла по среди MovieApp копаться в этом первом проекте
   },
   "settings": {
