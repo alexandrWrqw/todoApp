@@ -2,10 +2,11 @@ import { Component } from "react";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import PropTypes from "prop-types";
 
+import EditingTask from "../EditingTask/EditingTask";
+
 export default class TodoListItem extends Component {
   state = {
     editing: false,
-    value: "",
     runningTimer: false,
     seconds: 0,
     minutes: 0,
@@ -67,6 +68,16 @@ export default class TodoListItem extends Component {
 
   timer = () => {
     const { seconds, minutes } = this.state;
+    const { sec, min } = this.props.task;
+
+    if (
+      min !== "" &&
+      sec !== "" &&
+      minutes === Number(min) &&
+      seconds === Number(sec)
+    ) {
+      return this.stopTimer();
+    }
 
     this.setState({ seconds: seconds + 1 });
 
@@ -85,22 +96,27 @@ export default class TodoListItem extends Component {
     return timeStr;
   };
 
-  submitEditedTask = (e) => {
+  submitEditedTask = (e, val) => {
     e.preventDefault();
 
     const {
       editTask,
       task: { id },
     } = this.props;
-    const { value } = this.state;
-    if (value.trim() !== "") editTask(id, value);
-    this.setState({ editing: false, value: "" });
+    if (val.trim() !== "") editTask(id, val);
+    this.setState({ editing: false });
+  };
+
+  onCloseEditingMode = () => {
+    this.setState({ editing: false });
   };
 
   render() {
     const { task, deleteTask, toggleCompleteTask } = this.props;
-    const { completed, id, description, createdTime } = task;
-    const { editing, value, seconds, minutes, runningTimer } = this.state;
+    const { completed, id, description, createdTime, min, sec } = task;
+    const { editing, seconds, minutes, runningTimer } = this.state;
+
+    const notNullTimer = min !== "" && sec !== "";
 
     return (
       <li className={completed ? "completed" : editing ? "editing" : null}>
@@ -118,7 +134,20 @@ export default class TodoListItem extends Component {
           <label htmlFor={id}>
             <span className="title">{description}</span>
             <span className="description">
-              {`${this.formatTime(minutes)}:${this.formatTime(seconds)}`}
+              <span
+                style={
+                  notNullTimer &&
+                  minutes === Number(min) &&
+                  seconds === Number(sec)
+                    ? { color: "red" }
+                    : null
+                }
+              >
+                {`${this.formatTime(minutes)}:${this.formatTime(seconds)} `}
+                {notNullTimer
+                  ? `(${this.formatTime(min)}:${this.formatTime(sec)} end)`
+                  : null}
+              </span>
               <button
                 type="button"
                 className="icon icon-play"
@@ -145,7 +174,6 @@ export default class TodoListItem extends Component {
             onClick={() =>
               this.setState(({ editing }) => ({
                 editing: !editing,
-                value: description,
               }))
             }
           />
@@ -157,18 +185,11 @@ export default class TodoListItem extends Component {
           />
         </div>
         {editing ? (
-          <form
-            className="submitForm"
-            onSubmit={this.submitEditedTask.bind(this)}
-          >
-            <input
-              type="text"
-              className="edit"
-              onChange={(e) => this.setState({ value: e.target.value })}
-              value={value}
-              autoFocus
-            />
-          </form>
+          <EditingTask
+            submitEditedTask={this.submitEditedTask}
+            onCloseEditingMode={this.onCloseEditingMode}
+            description={description}
+          />
         ) : null}
       </li>
     );
@@ -181,6 +202,8 @@ TodoListItem.propTypes = {
     createdTime: PropTypes.instanceOf(Date),
     completed: PropTypes.bool,
     id: PropTypes.number,
+    sec: PropTypes.string,
+    min: PropTypes.string,
   }),
   deleteTask: PropTypes.func.isRequired,
   toggleCompleteTask: PropTypes.func.isRequired,

@@ -13,18 +13,20 @@ export default class App extends Component {
     savedTimers: new Map(),
   };
 
-  createTask(description) {
+  createTask(description, min, sec) {
     return {
       description,
       createdTime: new Date(),
       completed: false,
       id: this.maxId++,
+      min,
+      sec,
     };
   }
 
-  addTask = (text) => {
+  addTask = (text, min, sec) => {
     this.setState(({ tasks }) => {
-      const newTasks = [...tasks, this.createTask(text)];
+      const newTasks = [...tasks, this.createTask(text, min, sec)];
 
       return {
         tasks: newTasks,
